@@ -1,0 +1,32 @@
+#consumer-topic
+server:
+  port: 8084
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5674
+    username: guest
+    password: guest
+    request:
+      exchange:
+        producer: topic.agencia
+      routing-key:
+        producer: topic.routingkey
+        all: "*.fraudes.#"
+        horario: "horario.fraudes.*"
+        valor: "valor.fraudes.*"
+
+      dead-letter:
+        producer: topic.deadletter
+      parking-lot:
+        producer: topic.parkinglot
+
+      fraudes:
+        producer: topic.fraudes
+      fraude-horario:
+        producer: topic.horario.fraudes
+      fraude-valor:
+        producer: topic.valor.fraudes
+
+    listener:
+      time-retry: 1/10 0/1 * 1/1 * *
